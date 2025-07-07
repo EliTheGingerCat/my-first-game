@@ -16,7 +16,6 @@
 			"$path": "src/Workspace"
 		},
 		"Lighting": {
-			"$path": "src/Lighting",
 			"$properties": {
 				"Ambient": [0.2745, 0.2745, 0.2745],
 				"Brightness": 3,
@@ -29,6 +28,20 @@
 				"GeographicLatitude": 0,
 				"EnvironmentDiffuseScale": 1,
 				"EnvironmentSpecularScale": 1
+			},
+
+			"Sky": {
+				"$properties": {
+					"MoonTextureId": "rbxassetid://6444320592",
+					"SkyboxBk": "rbxassetid://6444884337",
+					"SkyboxDn": "rbxassetid://6444884785",
+					"SkyboxFt": "rbxassetid://6444884337",
+					"SkyboxLf": "rbxassetid://6444884337",
+					"SkyboxRt": "rbxassetid://6444884337",
+					"SkyboxUp": "rbxassetid://6412503613",
+					"SunAngularSize": 11,
+					"SunTextureId": "rbxassetid://6196665106"
+				}
 			}
 		}
 	}
