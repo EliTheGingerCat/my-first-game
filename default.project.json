@@ -3,18 +3,7 @@
 	"emitLegacyScripts": false,
 	"tree": {
 		"$className": "DataModel",
-		"ReplicatedStorage": {
-			"$path": "src/ReplicatedStorage"
-		},
-		"TextChatService": {
-			"$properties": {
-				"ChatTranslationEnabled": true,
-				"ChatVersion": "TextChatService"
-			}
-		},
-		"Workspace": {
-			"$path": "src/Workspace"
-		},
+
 		"Lighting": {
 			"$properties": {
 				"Ambient": [0.2745, 0.2745, 0.2745],
@@ -43,6 +32,21 @@
 					"SunTextureId": "rbxassetid://6196665106"
 				}
 			}
+		},
+
+		"ReplicatedStorage": {
+			"$path": "src/ReplicatedStorage"
+		},
+
+		"TextChatService": {
+			"$properties": {
+				"ChatTranslationEnabled": true,
+				"ChatVersion": "TextChatService"
+			}
+		},
+
+		"Workspace": {
+			"$path": "src/Workspace"
 		}
 	}
 }
