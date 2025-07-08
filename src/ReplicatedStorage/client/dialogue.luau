@@ -10,6 +10,7 @@ local player_observant = speaker_ids.player_3
 local player_brainrot = speaker_ids.player_4
 
 local Barky = speaker_ids.Barky
+local Ronald = speaker_ids.Ronald
 
 return {
 	-- When the game starts.
@@ -106,11 +107,11 @@ return {
 		responses = {
 			{
 				speaker_id = player_brainrot,
-				text = "Let us jump down!"
+				response_text = "Let us jump down!"
 			},
 			{
 				speaker_id = player_brainrot,
-				text = "I guess we just have to sit around until... uh... we teleport down?",
+				response_text = "I guess we just have to sit around until... uh... we teleport down?",
 				next = {
 					texts = {
 						{
@@ -119,10 +120,10 @@ return {
 						}
 						-- Then: they teleport down.
 					}
-				} :: dialogue_tree
+				} :: dialogue_tree?
 			}
 		}
-	},
+	} :: dialogue_tree,
 
 	-- If players teleport down.
 	teleport = {
@@ -168,11 +169,16 @@ return {
 		}
 	} :: dialogue_tree,
 
+	-- When players reach the store.
 	store = {
 		texts = {
 			{
 				speaker_id = player_observant,
 				text = "This is an... interesting store. But anyway, I am still wondering what that sign said."
+			},
+			{
+				speaker_id = Ronald,
+				text = "Hiya folks! Hope you can find what you need."
 			},
 			{
 				speaker_id = Barky,
@@ -189,6 +195,53 @@ return {
 			{
 				speaker_id = player_focused,
 				text = "Lock in. I really want to go on this trip."
+			}
+		}
+	} :: dialogue_tree,
+
+	buy = {
+		texts = {
+			{
+				speaker_id = Barky,
+				text = "Okay Ronald, we are ready to checkout."
+			},
+			{
+				speaker_id = Ronald,
+				text = "I AM SICK OF WORKING HERE. THE LAST TIME I GOT A VACATION WAS"
+			},
+			{
+				speaker_id = Ronald,
+				text = "Great! That will cost $9,0.1"
+			},
+			{
+				speaker_id = Barky,
+				text = "Uh oh guys... I only have ${barky_cash}."
+			}
+		},
+		responses = {
+			{
+				speaker_id = player_focused,
+				response_text = "Let us run!",
+				next = {
+					texts = {
+						{
+							speaker_id = Ronald,
+							text = "Hey! Where are you guys going?!"
+						}
+					}
+				} :: dialogue_tree?
+			},
+			{
+				speaker_id = player_focused,
+				response_text = "Ok gg.",
+				next = {
+					texts = {
+						{
+							speaker_id = Ronald,
+							text = "By the way, we are having a 100% off sale today."
+						}
+					}
+				} :: dialogue_tree?
 			}
 		}
 	} :: dialogue_tree
