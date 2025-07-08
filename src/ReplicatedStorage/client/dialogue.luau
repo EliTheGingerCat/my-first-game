@@ -136,7 +136,7 @@ return {
 				text = "I told you 💔"
 			}
 		}
-	},
+	} :: dialogue_tree,
 
 	-- When players reach the valley, regardless of how.
 	valley = {
@@ -160,7 +160,32 @@ return {
 			{
 				speaker_id = player_smart,
 				text = "I think it is right around the corner."
+			},
+			{
+				speaker_id = player_observant,
+				text = "Is nobody going to comment on this floating road?"
 			}
 		}
-	}
+	} :: dialogue_tree,
+
+	store = {
+		texts = {
+			{
+				speaker_id = player_observant,
+				text = "This is an... interesting store. But anyway, I am still wondering what that sign said."
+			},
+			{
+				speaker_id = Barky,
+				text = "Alright guys, here is the shopping list:\n- 5 Shopping List\n- 3 Shopping Lists\n- 3 Shopping Lists\n- 3"
+			},
+			{
+				speaker_id = player_focused,
+				text = "Yoo! The store barely has enough left in stock."
+			},
+			{
+				speaker_id = player_smart,
+				text = "Dude... why are we buying shopping lists?"
+			}
+		}
+	} :: dialogue_tree
 }
