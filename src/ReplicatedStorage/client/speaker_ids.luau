@@ -4,5 +4,5 @@ return {
 	player_3 = 3,
 	player_4 = 4,
 
-	barky = 5
+	Barky = 5
 }
