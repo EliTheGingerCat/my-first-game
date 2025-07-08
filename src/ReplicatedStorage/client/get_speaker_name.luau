@@ -1,6 +1,6 @@
 local Players = game:GetService("Players")
 
-local speaker_ids = require("./speaker_ids")
+local speaker_ids = require(script.Parent.speaker_ids)
 
 local name_to_id = speaker_ids :: {[string]: number}
 

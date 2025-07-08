@@ -1,5 +1,5 @@
-local speaker_ids = require("./speaker_ids")
-local types = require("./types")
+local speaker_ids = require(script.Parent.speaker_ids)
+local types = require(script.Parent.types)
 
 type dialogue_tree = types.dialogue_tree
 
