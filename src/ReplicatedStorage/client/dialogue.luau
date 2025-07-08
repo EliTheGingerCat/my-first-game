@@ -185,6 +185,10 @@ return {
 			{
 				speaker_id = player_smart,
 				text = "Dude... why are we buying shopping lists?"
+			},
+			{
+				speaker_id = player_focused,
+				text = "Lock in. I really want to go on this trip."
 			}
 		}
 	} :: dialogue_tree
