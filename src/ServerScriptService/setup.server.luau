@@ -10,8 +10,7 @@ local function player_added(player: Player): ()
 		return
 	end
 
-	local id = math.random(1, #ids)
-	table.remove(ids, id)
+	local id = table.remove(ids, math.random(1, #ids))
 
 	player:SetAttribute("speaker_id", id)
 end
