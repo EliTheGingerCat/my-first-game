@@ -3,13 +3,31 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local all_dialogue = require(ReplicatedStorage.all_dialogue)
-local dialogue_state = require(script.Parent.dialogue_state)
+local constants = require(ReplicatedStorage.constants)
+local get_graphemes = require(ReplicatedStorage.get_graphemes)
+local dialogue_info = require(script.Parent.dialogue_info)
 
 local detections = workspace.Map.Detections
 
 local function play_dialogue(name: string): ()
-	dialogue_state.active_node = all_dialogue[name]
+	dialogue_info.active_node = all_dialogue[name]
 	ReplicatedStorage.remotes.start_dialogue:FireAllClients(name, HttpService:GenerateGUID(false))
+
+	local node = assert(dialogue_info.active_node)
+	if node.dialogue_id then
+		local grapheme_count = 0
+		local text_count = 0
+		for _, text in assert(dialogue_info.active_node).texts do
+			grapheme_count += get_graphemes(text.text)
+			text_count += 1
+		end
+		task.delay(grapheme_count / constants.DIALOGUE_SPEED + text_count * 2, function()
+			if dialogue_info.active_node ~= node then
+				return
+			end
+			dialogue_info.dialogue_ended:Fire(assert(node.dialogue_id))
+		end)
+	end
 end
 
 -- return true to disconnect

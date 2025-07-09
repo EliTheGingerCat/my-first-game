@@ -1,7 +1,9 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local dialogue_state = require(script.Parent.dialogue_state)
+local constants = require(ReplicatedStorage.constants)
+local get_graphemes = require(ReplicatedStorage.get_graphemes)
+local dialogue_info = require(script.Parent.dialogue_info)
 
 local ids = {1, 2, 3, 4}
 
@@ -21,12 +23,12 @@ end
 
 Players.PlayerAdded:Connect(player_added)
 
-ReplicatedStorage.remotes.choose_response.OnServerEvent:Connect(function(player, response_id: unknown)
-	if typeof(response_id) ~= "number" then
+ReplicatedStorage.remotes.choose_response.OnServerEvent:Connect(function(player, response_index: unknown)
+	if typeof(response_index) ~= "number" then
 		return
 	end
 
-	local current_node = dialogue_state.active_node
+	local current_node = dialogue_info.active_node
 
 	if current_node == nil then
 		return
@@ -36,12 +38,21 @@ ReplicatedStorage.remotes.choose_response.OnServerEvent:Connect(function(player,
 		return
 	end
 
-	local response = assert(current_node.responses)[response_id]
+	local response = assert(current_node.responses)[response_index]
 	if response == nil then
 		return
 	end
 
-	dialogue_state.active_node = response.next
+	dialogue_info.active_node = response.next
 
-	ReplicatedStorage.remotes.response_chosen:FireAllClients(response_id)
+	ReplicatedStorage.remotes.response_chosen:FireAllClients(response_index)
+
+	if response.response_id then
+		task.delay(get_graphemes(response.response_text) / constants.DIALOGUE_SPEED + 2, function()
+			if dialogue_info.active_node ~= response.next then
+				return
+			end
+			dialogue_info.response_ended:Fire(response.response_id)
+		end)
+	end
 end)

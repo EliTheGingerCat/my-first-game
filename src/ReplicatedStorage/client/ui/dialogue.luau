@@ -3,6 +3,8 @@ local RunService = game:GetService("RunService")
 
 local get_speaker_name = require(ReplicatedStorage.client.get_speaker_name)
 local useClock = require(ReplicatedStorage.client.react_hooks.useClock)
+local constants = require(ReplicatedStorage.constants)
+local get_graphemes = require(ReplicatedStorage.get_graphemes)
 local types = require(ReplicatedStorage.types)
 local background = require(script.Parent.background)
 local scale = require(script.Parent.scale)
@@ -10,15 +12,6 @@ local text = require(script.Parent.text)
 local React = require(ReplicatedStorage.vendor.ReactLua.React)
 
 local e = React.createElement
-local DIALOGUE_SPEED = 20
-
-local function get_graphemes(text: string): number
-	local count = 0
-	for _ in utf8.graphemes(text) do
-		count += 1
-	end
-	return count
-end
 
 return function(props: {
 	dialogue_tree: types.dialogue_tree,
@@ -71,7 +64,7 @@ return function(props: {
 
 	React.useEffect(function()
 		local elapsed = 0
-		local total_time = get_graphemes(get_text()) / DIALOGUE_SPEED + 2
+		local total_time = get_graphemes(get_text()) / constants.DIALOGUE_SPEED + 2
 		local connection
 		connection = RunService.PostSimulation:Connect(function(delta_time)
 			elapsed += delta_time
@@ -176,7 +169,7 @@ return function(props: {
 					Size = UDim2.fromScale(1, 1),
 					Text = get_text(),
 					MaxVisibleGraphemes = clockBinding:map(function(clock: number)
-						return math.min((clock - lastChanged) * DIALOGUE_SPEED, get_graphemes(get_text()))
+						return math.min((clock - lastChanged) * constants.DIALOGUE_SPEED, get_graphemes(get_text()))
 					end),
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextYAlignment = Enum.TextYAlignment.Top,
