@@ -43,13 +43,14 @@ return {
 				text = "How are we going to get in?"
 			}
 		},
+		response_speaker_id = player_smart,
 		responses = {
 			{
-				speaker_id = player_smart,
+				button_text = "Knock.",
 				response_text = "We can knock on his door."
 			},
 			{
-				speaker_id = player_smart,
+				button_text = "Sit around.",
 				response_text = "I guess we just have to sit around for him to come out."
 				-- Leads to: boring
 			}
@@ -104,13 +105,14 @@ return {
 				text = "How are we going to get down?"
 			}
 		},
+		response_speaker_id = player_brainrot,
 		responses = {
 			{
-				speaker_id = player_brainrot,
+				button_text = "Jump down.",
 				response_text = "Let us jump down!"
 			},
 			{
-				speaker_id = player_brainrot,
+				button_text = "Sit around.",
 				response_text = "I guess we just have to sit around until... uh... we teleport down?",
 				next = {
 					texts = {
@@ -218,10 +220,11 @@ return {
 				text = "Uh oh guys... I only have ${barky_cash}."
 			}
 		},
+		response_speaker_id = player_focused,
 		responses = {
 			{
-				speaker_id = player_focused,
-				response_text = "Let us run!",
+				button_text = "Run away.",
+				response_text = "Let's run!",
 				next = {
 					texts = {
 						{
@@ -232,7 +235,7 @@ return {
 				} :: dialogue_tree?
 			},
 			{
-				speaker_id = player_focused,
+				button_text = "Admit defeat.",
 				response_text = "Ok gg.",
 				next = {
 					texts = {

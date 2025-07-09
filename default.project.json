@@ -39,6 +39,10 @@
 			"$path": "src/ReplicatedStorage"
 		},
 
+		"ServerScriptService": {
+			"$path": "src/ServerScriptService"
+		},
+
 		"TextChatService": {
 			"$properties": {
 				"ChatTranslationEnabled": true,
