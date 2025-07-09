@@ -21,7 +21,7 @@ end
 
 Players.PlayerAdded:Connect(player_added)
 
-ReplicatedStorage.remotes.choose_response.OnServerEvent:Connect(function(player, response_id: number)
+ReplicatedStorage.remotes.choose_response.OnServerEvent:Connect(function(player, response_id: unknown)
 	if typeof(response_id) ~= "number" then
 		return
 	end
