@@ -1,18 +1,8 @@
-local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local constants = require(ReplicatedStorage.constants)
-local get_graphemes = require(ReplicatedStorage.get_graphemes)
 local dialogue_info = require(script.Parent.dialogue_info)
-local player_ids = require(script.Parent.player_ids)
-
-for _, player in Players:GetPlayers() do
-	player_ids.add_player(player)
-end
-
-Players.PlayerAdded:Connect(player_ids.add_player)
-
-Players.PlayerRemoving:Connect(player_ids.remove_player)
+local get_graphemes = require(ReplicatedStorage.get_graphemes)
 
 ReplicatedStorage.remotes.choose_response.OnServerEvent:Connect(function(player, response_index: unknown)
 	if typeof(response_index) ~= "number" then

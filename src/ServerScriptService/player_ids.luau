@@ -1,20 +1,17 @@
-local ids = {1, 2, 3, 4}
-
-local function add_player(player: Player): ()
-	if #ids == 0 then
-		return
-	end
-
-	local id = table.remove(ids, math.random(1, #ids))
-
+local function add_player(player: Player, id: number): ()
 	player:SetAttribute("speaker_id", id)
 end
 
-local function remove_player(player: Player): ()
-	table.insert(ids, player:GetAttribute("speaker_id") :: number)
+--[=[
+	@return number -- The id that the player had.
+]=]
+local function player_removing(player: Player): number
+	local id = player:GetAttribute("speaker_id") :: number?
+	assert(id, `Player "{player.Name}" was missing a speaker id.`)
+	return id
 end
 
 return table.freeze({
 	add_player = add_player,
-	remove_player = remove_player
+	player_removing = player_removing
 })
