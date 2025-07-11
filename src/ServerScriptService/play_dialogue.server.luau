@@ -3,11 +3,29 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local all_dialogue = require(ReplicatedStorage.all_dialogue)
+local bots = require(script.Parent.bots)
 local constants = require(ReplicatedStorage.constants)
 local get_graphemes = require(ReplicatedStorage.get_graphemes)
 local dialogue_info = require(script.Parent.dialogue_info)
 
 local detections = workspace.Map.Detections
+local waypoints = workspace.Map.Waypoints
+
+local dialogue_waypoints = {
+	house = waypoints.barky_house,
+	road = waypoints.road,
+	valley = waypoints.valley,
+	store = waypoints.store
+} :: {[string]: BasePart?}
+
+local function move_to_waypoint(dialogue_id: string): ()
+	local waypoint = dialogue_waypoints[dialogue_id]
+	if waypoint == nil then
+		return
+	end
+
+	bots.all_move_to(waypoint.Position)
+end
 
 local function play_dialogue(name: string): ()
 	dialogue_info.active_node = all_dialogue[name]
@@ -21,6 +39,7 @@ local function play_dialogue(name: string): ()
 			grapheme_count += get_graphemes(text.text)
 			text_count += 1
 		end
+		move_to_waypoint(node.dialogue_id)
 		task.delay(grapheme_count / constants.DIALOGUE_SPEED + text_count * 2, function()
 			if dialogue_info.active_node ~= node then
 				return
