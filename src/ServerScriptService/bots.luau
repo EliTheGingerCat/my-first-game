@@ -37,5 +37,6 @@ end
 
 return table.freeze({
 	add_character = add_character,
+	ids = ids,
 	remove_oldest_character = remove_oldest_character
 })

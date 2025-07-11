@@ -15,6 +15,7 @@ local Ronald = speaker_ids.Ronald
 return {
 	-- When the game starts.
 	start = {
+		dialogue_id = "start",
 		texts = {
 			{
 				speaker_id = player_focused,
@@ -29,6 +30,7 @@ return {
 
 	-- When the players reach the house.
 	house = {
+		dialogue_id = "house",
 		texts = {
 			{
 				speaker_id = player_brainrot,
@@ -58,6 +60,7 @@ return {
 	} :: dialogue_tree,
 
 	boring = {
+		dialogue_id = "boring",
 		texts = {
 			speaker_id = player_observant,
 			text = "This is so boring."
@@ -66,6 +69,7 @@ return {
 
 	-- When Barky arrives, regardless of how.
 	meet_barky = {
+		dialogue_id = "Barky",
 		texts = {
 			{
 				speaker_id = Barky,
@@ -83,6 +87,7 @@ return {
 	} :: dialogue_tree,
 
 	road = {
+		dialogue_id = "road",
 		texts = {
 			{
 				speaker_id = player_observant,
@@ -115,6 +120,7 @@ return {
 				button_text = "Sit around.",
 				response_text = "I guess we just have to sit around until... uh... we teleport down?",
 				next = {
+					dialogue_id = "teleport",
 					texts = {
 						{
 							speaker_id = player_smart,
@@ -129,6 +135,7 @@ return {
 
 	-- If players teleport down.
 	teleport = {
+		dialogue_id = "did teleport",
 		texts = {
 			{
 				speaker_id = player_smart,
@@ -143,6 +150,7 @@ return {
 
 	-- When players reach the valley, regardless of how.
 	valley = {
+		dialogue_id = "valley",
 		texts = {
 			{
 				speaker_id = player_observant,
@@ -173,6 +181,7 @@ return {
 
 	-- When players reach the store.
 	store = {
+		dialogue_id = "store",
 		texts = {
 			{
 				speaker_id = player_observant,
@@ -202,6 +211,7 @@ return {
 	} :: dialogue_tree,
 
 	buy = {
+		dialogue_id = "buy",
 		texts = {
 			{
 				speaker_id = Barky,
@@ -226,6 +236,7 @@ return {
 				button_text = "Run away.",
 				response_text = "Let's run!",
 				next = {
+					dialogue_id = "shoplift",
 					texts = {
 						{
 							speaker_id = Ronald,
@@ -238,6 +249,7 @@ return {
 				button_text = "Admit defeat.",
 				response_text = "Ok gg.",
 				next = {
+					dialogue_id = "sale",
 					texts = {
 						{
 							speaker_id = Ronald,

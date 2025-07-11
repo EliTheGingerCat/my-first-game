@@ -1,30 +1,55 @@
 local Players = game:GetService("Players")
 
-local bot_ids = require(script.Parent.bot_ids)
+local bots = require(script.Parent.bots)
+local choose_response = require(script.Parent.choose_response)
+local dialogue_info = require(script.Parent.dialogue_info)
 local player_ids = require(script.Parent.player_ids)
 
 -- Start off with everyone as a bot.
 local PLAYABLE_CHARACTER_IDS = {1, 2, 3, 4}
 for _, id in PLAYABLE_CHARACTER_IDS do
-	bot_ids.add_character(id)
+	bots.add_character(id)
 end
 
 -- When a player joins, they must take the place of a bot, since the game will always be filled to capacity, using bots if necessary.
 local function on_player_add(player: Player): ()
-	local id = bot_ids.remove_oldest_character()
+	local id = bots.remove_oldest_character()
 	player_ids.add_player(player, id)
 end
 
 -- Replace leaving players with bots.
 local function on_player_removing(player: Player): ()
 	local id = player_ids.player_removing(player)
-	bot_ids.add_character(id)
+	bots.add_character(id)
 end
 
 for _, player in Players:GetPlayers() do
 	on_player_add(player)
 end
-
 Players.PlayerAdded:Connect(on_player_add)
-
 Players.PlayerRemoving:Connect(on_player_removing)
+
+dialogue_info.dialogue_ended:Connect(function()
+	local node = dialogue_info.active_node
+	assert(node, "Active node is missing.")
+
+	local responder_id = node.response_speaker_id
+	if responder_id == nil then
+		return
+	end
+
+	local index = table.find(bots.ids, responder_id)
+	if index == nil then
+		return
+	end
+	-- Guaranteed that the responder is a bot.
+
+	task.wait(3)
+
+	local responses = node.responses
+	assert(responses, "Node responses of dialogue are missing.")
+
+	local response_index = math.random(1, #responses)
+
+	choose_response(responder_id, response_index)
+end)
