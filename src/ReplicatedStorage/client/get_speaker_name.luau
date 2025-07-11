@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local backup_characters = require(ReplicatedStorage.backup_characters)
+local bots_names = require(ReplicatedStorage.bots_names)
 local speaker_ids = require(ReplicatedStorage.speaker_ids)
 
 local name_to_id = speaker_ids :: {[string]: number}
@@ -12,7 +12,7 @@ for name, id in name_to_id do
 end
 
 -- Replace `player_*` names with backup character names.
-table.move(backup_characters, 1, 4, 1, id_to_name)
+table.move(bots_names, 1, 4, 1, id_to_name)
 
 return function(speaker_id: number): string
 	if speaker_id < 5 then

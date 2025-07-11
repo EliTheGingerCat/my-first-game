@@ -1,8 +1,8 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 
-local b_c_names = require(ReplicatedStorage.backup_characters)
-local b_c_models = ServerStorage.backup_characters
+local bot_names = require(ReplicatedStorage.bots_names)
+local bot_models = ServerStorage.bots
 
 local ids = {}
 
@@ -10,15 +10,15 @@ local function add_character(id: number): ()
 	local index = table.find(ids, id)
 	assert(index == nil, `Id "{id}" is already taken.`)
 	table.insert(ids, id)
-	local name = b_c_names[id] :: string?
+	local name = bot_names[id] :: string?
 	assert(name ~= nil, `Id "{id}" is invalid.`)
-	local model = b_c_models:FindFirstChild(name) :: Model?
+	local model = bot_models:FindFirstChild(name) :: Model?
 	assert(model ~= nil, `Backup character "{name}" was not found in storage.`)
 	model:Clone().Parent = workspace
 end
 
 local function remove_character(id: number): ()
-	local name = b_c_names[id] :: string?
+	local name = bot_names[id] :: string?
 	assert(name ~= nil, `Id "{id}" is invalid.`)
 	local model = workspace:FindFirstChild(name) :: Model?
 	assert(model ~= nil, `Backup character "{name}" was not found in Workspace.`)
