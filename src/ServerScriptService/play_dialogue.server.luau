@@ -3,6 +3,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local all_dialogue = require(ReplicatedStorage.all_dialogue)
+local bots = require(script.Parent.bots)
 local dialogue_info = require(script.Parent.dialogue_info)
 local go_to_waypoint = require(script.Parent.go_to_waypoint)
 local prepare_dialogue_ended = require(script.Parent.prepare_dialogue_ended)
@@ -51,6 +52,7 @@ end)
 
 local function meet_barky()
 	workspace.Barky:PivotTo(CFrame.new(teleports.barky.Position))
+	bots.register_character(workspace.Barky)
 	play_dialogue("meet_barky")
 end
 

@@ -16,6 +16,16 @@ local models = {} :: {Model}
 local path = PathfindingService:CreatePath()
 local threads = {} :: {thread}
 
+local function register_character(model: Model): ()
+	table.insert(models, model)
+	local humanoid = model:FindFirstChildOfClass("Humanoid")
+	assert(humanoid ~= nil, `Humanoid not found in model "{model.Name}".`)
+	table.insert(humanoids, humanoid)
+	local animate = ServerStorage.Animate:Clone()
+	animate.Parent = model
+	bot_added:Fire(model)
+end
+
 local function add_bot(id: number): ()
 	local index = table.find(ids, id)
 	assert(index == nil, `Id "{id}" is already taken.`)
@@ -25,15 +35,11 @@ local function add_bot(id: number): ()
 	local model = bot_models:FindFirstChild(name) :: Model?
 	assert(model ~= nil, `Backup character "{name}" was not found in storage.`)
 	local clone = model:Clone()
-	table.insert(models, clone)
-	local humanoid = clone:FindFirstChildOfClass("Humanoid")
-	assert(humanoid ~= nil, `Humanoid not found in model "{name}".`)
-	table.insert(humanoids, humanoid)
-	local animate = ServerStorage.Animate:Clone()
-	animate.Parent = clone
+
+	register_character(clone)
+	
 	clone:PivotTo(CFrame.new(last_position))
 	clone.Parent = workspace
-	bot_added:Fire(clone)
 end
 
 local function remove_bot(id: number): ()
@@ -132,5 +138,6 @@ return table.freeze({
 	all_teleport = all_teleport,
 	bot_added = bot_added,
 	is_bot = is_bot,
+	register_character = register_character,
 	remove_random_bot = remove_random_bot
 })
