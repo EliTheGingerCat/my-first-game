@@ -8,19 +8,38 @@ local bot_models = ServerStorage.bots
 
 type Signal<T...> = Signal.Signal<T...>
 
+type character = {
+	model: Model,
+	humanoid: Humanoid
+}
+type link = {
+	start: Vector3,
+	stop: Vector3
+}
+
 local bot_added: Signal<Model> = Signal.new()
-local humanoids = {} :: {Humanoid}
+local characters = {} :: {character}
 local ids = {} :: {number}
 local last_position = workspace.Map.SpawnLocation.Position + Vector3.new(0, 1.5, 0)
-local models = {} :: {Model}
 local path = PathfindingService:CreatePath()
 local threads = {} :: {thread}
 
+local path_links = {} :: {[string]: link}
+for index, link in workspace.Map.links:GetChildren() do
+	assert(link:IsA("PathfindingLink"), `Non PathfindingLink named "{link.Name}" found in links folder.`)
+	path_links[link.Label] = {
+		start = link.Attachment0.WorldCFrame.Position,
+		stop = link.Attachment1.WorldCFrame.Position
+	}
+end
+
 local function register_character(model: Model): ()
-	table.insert(models, model)
 	local humanoid = model:FindFirstChildOfClass("Humanoid")
 	assert(humanoid ~= nil, `Humanoid not found in model "{model.Name}".`)
-	table.insert(humanoids, humanoid)
+	table.insert(characters, {
+		model = model,
+		humanoid = humanoid
+	})
 	local animate = ServerStorage.Animate:Clone()
 	animate.Parent = model
 	bot_added:Fire(model)
@@ -47,13 +66,21 @@ local function remove_bot(id: number): ()
 	assert(name ~= nil, `Id "{id}" is invalid.`)
 	local model = workspace:FindFirstChild(name) :: Model?
 	assert(model ~= nil, `Backup character "{name}" was not found in Workspace.`)
-	local index_model = table.find(models, model)
-	assert(index_model ~= nil, `Model "{name}" was not found in array of models.`)
+
 	local humanoid = model:FindFirstChildOfClass("Humanoid")
 	assert(humanoid ~= nil, `Humanoid not found in model "{name}".`)
-	local index_humanoid = table.find(humanoids, humanoid)
-	assert(index_humanoid ~= nil, `Humanoid of bot "{name}" was not found in array of humanoids.`)
-	table.remove(humanoids, index_humanoid)
+
+	local index_found: number
+	for index, character in characters do
+		if character.model == model then
+			assert(character.humanoid == humanoid, `Humanoid of "{name}" does not match with character in table.`)
+			index_found = index
+			break
+		end
+	end
+	assert(index_found ~= nil, `Model "{name}" was not found in array of characters.`)
+	table.remove(characters, index_found)
+	
 	model:Destroy()
 end
 
@@ -78,20 +105,50 @@ local function cleanup(): ()
 	table.clear(threads)
 end
 
-local function follow_waypoints(humanoid: Humanoid, waypoints: {PathWaypoint}): ()
+local function jump(humanoid: Humanoid): ()
+	humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+end
+
+local VERTICAL_RISE = Vector3.new(0, 1, 0)
+local VERTICAL_RISE_HALF = VERTICAL_RISE / 2
+local function follow_waypoints(model: Model, humanoid: Humanoid, waypoints: {PathWaypoint}): ()
 	for _, waypoint in waypoints do
 		if waypoint.Action == Enum.PathWaypointAction.Jump then
-			humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+			jump(humanoid)
 		elseif waypoint.Action == Enum.PathWaypointAction.Walk then
 			humanoid:MoveTo(waypoint.Position)
 			humanoid.MoveToFinished:Wait()
+		else
+			-- Custom
+			-- This is so scuffed. At least this actually works though. Trying to cooperate with PathfindingService might never work.
+			local link = path_links[waypoint.Label]
+			local direct_path = link.stop - link.start
+
+			local quarter_plane = (direct_path) /4
+			local quarter_1 = link.start + quarter_plane   + VERTICAL_RISE_HALF
+			local quarter_2 = link.start + quarter_plane*2 + VERTICAL_RISE
+			local quarter_3 = link.start + quarter_plane*3 + VERTICAL_RISE_HALF
+			local quarter_4 = link.stop
+
+			local without_y = Vector3.new(direct_path.X, 0, direct_path.Z)
+			local facing = CFrame.lookAt(Vector3.zero, without_y)
+
+			task.wait(0.1)
+			model:PivotTo(CFrame.new(quarter_1) * facing)
+			task.wait(0.1)
+			model:PivotTo(CFrame.new(quarter_2) * facing)
+			task.wait(0.1)
+			model:PivotTo(CFrame.new(quarter_3) * facing)
+			task.wait(0.1)
+			model:PivotTo(CFrame.new(quarter_4) * facing)
+			task.wait(0.1)
 		end
 	end
 end
 
 local function all_teleport(position: Vector3): ()
-	for _, model in models do
-		model:PivotTo(CFrame.new(position))
+	for _, character in characters do
+		character.model:PivotTo(CFrame.new(position))
 	end
 end
 
@@ -116,8 +173,8 @@ local function try_pathfinding(position: Vector3): boolean
 
 	local waypoints = path:GetWaypoints()
 
-	for _, humanoid in humanoids do
-		local thread = task.spawn(follow_waypoints, humanoid, waypoints)
+	for _, character in characters do
+		local thread = task.spawn(follow_waypoints, character.model, character.humanoid, waypoints)
 		table.insert(threads, thread)
 	end
 
