@@ -101,11 +101,11 @@ local road: dialogue_tree = {
 			text = "I guess this is Where the Sidewalk Ends."
 		},
 		{
-			speaker_id = player_observant,
+			speaker_id = player_smart,
 			text = "Hey, I love that book!"
 		},
 		{
-			speaker_id = player_focused,
+			speaker_id = player_observant,
 			text = "Dude... it looks like this is where the WORLD ends. Why is there a massive cliff?!"
 		},
 		{
