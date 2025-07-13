@@ -1,4 +1,4 @@
-local function add_player(player: Player, id: number): ()
+local function player_added(player: Player, id: number): ()
 	player:SetAttribute("speaker_id", id)
 end
 
@@ -12,6 +12,6 @@ local function player_removing(player: Player): number
 end
 
 return table.freeze({
-	add_player = add_player,
+	player_added = player_added,
 	player_removing = player_removing
 })
