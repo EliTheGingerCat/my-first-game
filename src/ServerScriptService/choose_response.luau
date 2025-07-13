@@ -3,6 +3,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local constants = require(ReplicatedStorage.constants)
 local dialogue_info = require(script.Parent.dialogue_info)
 local get_graphemes = require(ReplicatedStorage.get_graphemes)
+local prepare_dialogue_ended = require(script.Parent.prepare_dialogue_ended)
 
 local function choose_response(speaker_id: number, response_index: unknown): ()
 	if typeof(response_index) ~= "number" then
@@ -34,6 +35,10 @@ local function choose_response(speaker_id: number, response_index: unknown): ()
 				return
 			end
 			dialogue_info.response_ended:Fire(response.response_id)
+
+			if response.next then
+				prepare_dialogue_ended(response.next)
+			end
 		end)
 	end
 end

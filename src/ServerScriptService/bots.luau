@@ -68,7 +68,7 @@ local function follow_waypoints(humanoid: Humanoid, waypoints: {PathWaypoint}): 
 	end
 end
 
-local function teleport(position: Vector3): ()
+local function all_teleport(position: Vector3): ()
 	for _, model in models do
 		model:PivotTo(CFrame.new(position))
 	end
@@ -107,7 +107,7 @@ local function all_move_to(position: Vector3): ()
 	local correct_position = position
 	local success = try_pathfinding(correct_position)
 	if not success then
-		teleport(correct_position)
+		all_teleport(correct_position)
 	end
 end
 
@@ -115,5 +115,6 @@ return table.freeze({
 	add_character = add_character,
 	ids = ids,
 	all_move_to = all_move_to,
+	all_teleport = all_teleport,
 	remove_oldest_character = remove_oldest_character
 })
