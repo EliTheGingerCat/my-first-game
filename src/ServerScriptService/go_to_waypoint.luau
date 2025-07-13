@@ -4,9 +4,7 @@ local waypoints = workspace.Map.waypoints
 
 local function go_to_waypoint(name: string): ()
 	local waypoint = waypoints:FindFirstChild(name)
-	if waypoint == nil then
-		return
-	end
+	assert(waypoint, `Waypoint "{name}" was not found.`)
 
 	bots.all_move_to(waypoint.Position)
 end

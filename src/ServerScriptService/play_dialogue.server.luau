@@ -18,7 +18,6 @@ local function play_dialogue(name: string): ()
 	ReplicatedStorage.remotes.start_dialogue:FireAllClients(name, HttpService:GenerateGUID(false))
 
 	prepare_dialogue_ended(node)
-	go_to_waypoint(node.dialogue_id)
 end
 
 -- return true to disconnect
@@ -62,8 +61,33 @@ on_player_touch(detections.Store, function()
 	return true
 end)
 
+-- Where should the NPCs go when this dialogue finishes playing?
+-- index = dialogue that finished
+-- value = where to go
+local next_waypoint = {
+	start = "house",
+	meet_barky = "road",
+	-- road is hardcoded
+	valley = "store"
+}
+
+dialogue_info.dialogue_ended:Connect(function(dialogue_id)
+	local waypoint = next_waypoint[dialogue_id] :: string?
+	if waypoint ~= nil then
+		go_to_waypoint(waypoint)
+	end
+end)
+
 dialogue_info.dialogue_ended:Connect(function(dialogue_id)
 	if dialogue_id == "teleport" then
 		teleport_everyone(teleports.valley.Position)
+	elseif dialogue_id == "did teleport" then
+		go_to_waypoint("valley")
+	end
+end)
+
+dialogue_info.response_ended:Connect(function(response_id)
+	if response_id == "jump" then
+		go_to_waypoint("valley")
 	end
 end)
