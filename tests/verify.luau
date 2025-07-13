@@ -1,11 +1,7 @@
---> Verify that all dialogue ids are unique.
+-- Verify that all dialogue ids are unique.
 
--- Place this in ReplicatedStorage.
-
--- require(game:GetService("ReplicatedStorage").ModuleScript)
-
-local all_dialogue = require(script.Parent.all_dialogue)
-local types = require(script.Parent.types)
+local all_dialogue = require(script.Parent.Parent.all_dialogue)
+local types = require(script.Parent.Parent.types)
 
 type dialogue_tree = types.dialogue_tree
 
@@ -55,9 +51,7 @@ if not is_empty(diagnostics) then
 		print(`{message}\nCount: {count}`)
 	end
 	
-	return nil
+	return false
 end
 
-print("All good.")
-
-return nil
+return true
