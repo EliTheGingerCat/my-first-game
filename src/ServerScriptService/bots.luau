@@ -3,6 +3,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 
 local bot_names = require(ReplicatedStorage.bots_names)
+local Signal = require(ReplicatedStorage.vendor.Signal)
 local bot_models = ServerStorage.bots
 
 local humanoids = {} :: {Humanoid}
@@ -11,6 +12,7 @@ local last_position = workspace.Map.SpawnLocation.Position + Vector3.new(0, 1.5,
 local models = {} :: {Model}
 local path = PathfindingService:CreatePath()
 local threads = {} :: {thread}
+local bot_added: Signal.Signal<Model> = Signal.new()
 
 local function add_character(id: number): ()
 	local index = table.find(ids, id)
@@ -25,8 +27,11 @@ local function add_character(id: number): ()
 	local humanoid = clone:FindFirstChildOfClass("Humanoid")
 	assert(humanoid ~= nil, `Humanoid not found in model "{name}".`)
 	table.insert(humanoids, humanoid)
+	local animate = ServerStorage.Animate:Clone()
+	animate.Parent = clone
 	clone:PivotTo(CFrame.new(last_position))
 	clone.Parent = workspace
+	bot_added:Fire(clone)
 end
 
 local function remove_character(id: number): ()
@@ -63,8 +68,12 @@ end
 
 local function follow_waypoints(humanoid: Humanoid, waypoints: {PathWaypoint}): ()
 	for _, waypoint in waypoints do
-		humanoid:MoveTo(waypoint.Position)
-		humanoid.MoveToFinished:Wait()
+		if waypoint.Action == Enum.PathWaypointAction.Jump then
+			humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+		elseif waypoint.Action == Enum.PathWaypointAction.Walk then
+			humanoid:MoveTo(waypoint.Position)
+			humanoid.MoveToFinished:Wait()
+		end
 	end
 end
 
@@ -116,5 +125,6 @@ return table.freeze({
 	ids = ids,
 	all_move_to = all_move_to,
 	all_teleport = all_teleport,
-	remove_oldest_character = remove_oldest_character
+	remove_oldest_character = remove_oldest_character,
+	bot_added = bot_added
 })
