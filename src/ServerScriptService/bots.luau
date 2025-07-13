@@ -117,7 +117,29 @@ local function follow_waypoints(model: Model, humanoid: Humanoid, waypoints: {Pa
 			jump(humanoid)
 		elseif waypoint.Action == Enum.PathWaypointAction.Walk then
 			humanoid:MoveTo(waypoint.Position)
-			humanoid.MoveToFinished:Wait()
+
+			local stop: true?
+			local connection = humanoid.MoveToFinished:Once(function()
+				stop = true
+			end)
+
+			-- Iono if any of this actually helps. The stuttering is still there but at least they actually are guaranteed get to their destination. The stuttering also seems more consistent, so each stutter is the same length.
+			local start = tick()
+			while true do
+				if stop then
+					break
+				end
+
+				local now = tick()
+				local elapsed = now - start
+				if elapsed > 1 then
+					connection:Disconnect()
+					model:PivotTo(CFrame.new(waypoint.Position))
+					break
+				end
+
+				task.wait()
+			end
 		else
 			-- Custom
 			-- This is so scuffed. At least this actually works though. Trying to cooperate with PathfindingService might never work.
@@ -156,8 +178,6 @@ end
 	@return boolean -- Whether there was success.
 ]=]
 local function try_pathfinding(position: Vector3): boolean
-	cleanup()
-
 	local success, errorMessage = pcall(path.ComputeAsync, path, last_position, position)
 	if not success then
 		print(`Failed to compute path: {errorMessage}`)
@@ -174,14 +194,17 @@ local function try_pathfinding(position: Vector3): boolean
 	local waypoints = path:GetWaypoints()
 
 	for _, character in characters do
+		print("going to:", position)
 		local thread = task.spawn(follow_waypoints, character.model, character.humanoid, waypoints)
 		table.insert(threads, thread)
+		print("total threads:", #threads)
 	end
 
 	return true
 end
 
 local function all_move(position: Vector3): ()
+	cleanup()
 	local success = try_pathfinding(position)
 	if not success then
 		all_teleport(position)
