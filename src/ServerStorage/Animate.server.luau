@@ -758,29 +758,6 @@ Humanoid.Seated:connect(onSeated)
 Humanoid.PlatformStanding:connect(onPlatformStanding)
 Humanoid.Swimming:connect(onSwimming)
 
--- emote bindable hook
-script:WaitForChild("PlayEmote").OnInvoke = function(emote)
-	-- Only play emotes when idling
-	if pose ~= "Standing" then
-		return
-	end
-
-	if emoteNames[emote] ~= nil then
-		-- Default emotes
-		playAnimation(emote, EMOTE_TRANSITION_TIME, Humanoid)
-		
-		return true, currentAnimTrack
-	elseif typeof(emote) == "Instance" and emote:IsA("Animation") then
-		-- Non-default emotes
-		playEmote(emote, EMOTE_TRANSITION_TIME, Humanoid)
-
-		return true, currentAnimTrack
-	end
-	
-	-- Return false to indicate that the emote could not be played
-	return false
-end
-
 if Character.Parent ~= nil then
 	-- initialize to idle
 	playAnimation("idle", 0.1, Humanoid)
