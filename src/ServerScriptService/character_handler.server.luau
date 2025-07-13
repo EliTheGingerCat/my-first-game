@@ -19,7 +19,7 @@ end
 
 -- When a player joins, they must take the place of a bot, since the game will always be filled to capacity, using bots if necessary.
 local function on_player_add(player: Player): ()
-	local id = bots.remove_oldest_character()
+	local id = bots.remove_random_character()
 	player_ids.player_added(player, id)
 	if player.Character then
 		on_character_add(player.Character)

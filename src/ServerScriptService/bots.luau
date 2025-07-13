@@ -52,8 +52,8 @@ end
 --[=[
 	@return number -- Id of bot removed.
 ]=]
-local function remove_oldest_character(): number
-	local first = table.remove(ids, 1) :: number?
+local function remove_random_character(): number
+	local first = table.remove(ids, math.random(1, #ids)) :: number?
 	assert(first ~= nil, "No bots exist right now.")
 	remove_character(first)
 	return first
@@ -125,6 +125,6 @@ return table.freeze({
 	ids = ids,
 	all_move_to = all_move_to,
 	all_teleport = all_teleport,
-	remove_oldest_character = remove_oldest_character,
+	remove_random_character = remove_random_character,
 	bot_added = bot_added
 })
