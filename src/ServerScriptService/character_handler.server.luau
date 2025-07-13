@@ -62,7 +62,7 @@ dialogue_info.dialogue_ended:Connect(function()
 	task.wait(3)
 
 	local responses = node.responses
-	assert(responses, "Node responses of dialogue are missing.")
+	assert(responses, `Node responses of dialogue "{node.dialogue_id}" are missing.`)
 
 	local response_index = math.random(1, #responses)
 
