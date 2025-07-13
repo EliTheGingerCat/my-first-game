@@ -63,14 +63,16 @@ local house: dialogue_tree = {
 local boring: dialogue_tree = {
 	dialogue_id = "boring",
 	texts = {
-		speaker_id = player_observant,
-		text = "This is so boring."
+		{
+			speaker_id = player_observant,
+			text = "This is so boring."
+		}
 	}
 }
 
 -- When Barky arrives, regardless of how.
 local meet_barky: dialogue_tree = {
-	dialogue_id = "Barky",
+	dialogue_id = "meet_barky",
 	texts = {
 		{
 			speaker_id = Barky,

@@ -46,10 +46,17 @@ on_player_touch(detections.BarkyHouse, function()
 	return true
 end)
 
+local function meet_barky()
+	workspace.Barky:PivotTo(CFrame.new(teleports.barky.Position))
+	play_dialogue("meet_barky")
+end
+
 on_player_touch(detections.Road, function()
+	print("touched")
 	if last_dialogue ~= "meet_barky" then
 		return
 	end
+	print("playing")
 
 	play_dialogue("road")
 	return true
@@ -103,7 +110,14 @@ dialogue_info.dialogue_ended:Connect(function(dialogue_id)
 end)
 
 dialogue_info.response_ended:Connect(function(response_id)
-	if response_id == "jump" then
+	if response_id == "knock" then
+		meet_barky()
+	elseif response_id == "wait" then
+		task.wait(5)
+		play_dialogue("boring")
+		task.wait(5)
+		meet_barky()
+	elseif response_id == "jump" then
 		go_to_waypoint("valley")
 		valley_ready = true
 	end
