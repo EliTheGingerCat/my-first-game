@@ -7,7 +7,7 @@ export type dialogue_tree = {
 	responses: {{
 		button_text: string,
 		response_text: string,
-		response_id: string?,
+		response_id: string,
 		-- nil to end the dialogue. It can also be ended by not having any response options.
 		next: dialogue_tree?
 	}}?

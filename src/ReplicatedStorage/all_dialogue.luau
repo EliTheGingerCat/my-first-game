@@ -47,10 +47,12 @@ local house: dialogue_tree = {
 	response_speaker_id = player_smart,
 	responses = {
 		{
+			response_id = "knock",
 			button_text = "Knock.",
 			response_text = "We can knock on his door."
 		},
 		{
+			response_id = "wait",
 			button_text = "Sit around.",
 			response_text = "I guess we just have to sit around for him to come out."
 			-- Leads to: boring
@@ -112,10 +114,12 @@ local road: dialogue_tree = {
 	response_speaker_id = player_brainrot,
 	responses = {
 		{
+			response_id = "jump",
 			button_text = "Jump down.",
 			response_text = "Let us jump down!"
 		},
 		{
+			response_id = "wait",
 			button_text = "Sit around.",
 			response_text = "I guess we just have to sit around until... uh... we teleport down?",
 			next = {
@@ -232,6 +236,7 @@ local buy: dialogue_tree = {
 	response_speaker_id = player_focused,
 	responses = {
 		{
+			response_id = "run",
 			button_text = "Run away.",
 			response_text = "Let's run!",
 			next = {
@@ -245,6 +250,7 @@ local buy: dialogue_tree = {
 			} :: dialogue_tree?
 		},
 		{
+			response_id = "wait",
 			button_text = "Admit defeat.",
 			response_text = "Ok gg.",
 			next = {
