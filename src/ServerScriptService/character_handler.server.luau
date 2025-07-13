@@ -5,6 +5,7 @@ local bots = require(script.Parent.bots)
 local choose_response = require(script.Parent.choose_response)
 local dialogue_info = require(script.Parent.dialogue_info)
 local player_ids = require(script.Parent.player_ids)
+local testing_data = require(script.Parent.testing_data)
 
 PhysicsService:RegisterCollisionGroup("Character")
 PhysicsService:CollisionGroupSetCollidable("Character", "Character", false)
@@ -64,7 +65,10 @@ dialogue_info.dialogue_ended:Connect(function()
 	local responses = node.responses
 	assert(responses, `Node responses of dialogue "{node.dialogue_id}" are missing.`)
 
-	local response_index = math.random(1, #responses)
+	local response_index = testing_data.hardcoded_responses[node.dialogue_id]
+	if response_index == nil then
+		response_index = math.random(1, #responses)
+	end
 
 	choose_response(responder_id, response_index)
 end)

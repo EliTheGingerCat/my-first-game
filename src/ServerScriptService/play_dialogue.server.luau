@@ -7,11 +7,12 @@ local dialogue_info = require(script.Parent.dialogue_info)
 local go_to_waypoint = require(script.Parent.go_to_waypoint)
 local prepare_dialogue_ended = require(script.Parent.prepare_dialogue_ended)
 local teleport_everyone = require(script.Parent.teleport_everyone)
+local testing_data = require(script.Parent.testing_data)
 
 local detections = workspace.Map.detections
 local teleports = workspace.Map.teleports
 
-local last_dialogue: string
+local last_dialogue = testing_data.last_dialogue
 
 local function play_dialogue(name: string): ()
 	local node = all_dialogue[name]
@@ -35,7 +36,9 @@ local function on_player_touch(part: BasePart, callback: () -> true?): ()
 	end)
 end
 
-play_dialogue("start")
+if last_dialogue == nil then
+	play_dialogue("start")
+end
 
 on_player_touch(detections.BarkyHouse, function()
 	if last_dialogue ~= "start" then
@@ -60,7 +63,18 @@ on_player_touch(detections.Road, function()
 	return true
 end)
 
+local function valley_teleport(): ()
+	teleport_everyone(teleports.valley.Position)
+	task.wait(1)
+	play_dialogue("teleport")
+end
+
 local valley_ready = false
+local function valley_done(): ()
+	go_to_waypoint("valley")
+	valley_ready = true
+end
+
 on_player_touch(detections.Valley, function()
 	if not valley_ready then
 		return
@@ -100,10 +114,9 @@ end)
 
 dialogue_info.dialogue_ended:Connect(function(dialogue_id)
 	if dialogue_id == "teleport" then
-		teleport_everyone(teleports.valley.Position)
+		valley_teleport()
 	elseif dialogue_id == "did teleport" then
-		go_to_waypoint("valley")
-		valley_ready = true
+		valley_done()
 	end
 end)
 
@@ -116,7 +129,6 @@ dialogue_info.response_ended:Connect(function(response_id)
 		task.wait(5)
 		meet_barky()
 	elseif response_id == "jump" then
-		go_to_waypoint("valley")
-		valley_ready = true
+		valley_done()
 	end
 end)
