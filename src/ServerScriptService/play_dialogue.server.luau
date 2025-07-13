@@ -8,8 +8,8 @@ local go_to_waypoint = require(script.Parent.go_to_waypoint)
 local prepare_dialogue_ended = require(script.Parent.prepare_dialogue_ended)
 local teleport_everyone = require(script.Parent.teleport_everyone)
 
-local detections = workspace.Map.Detections
-local teleport_locations = workspace.Map.teleport_locations
+local detections = workspace.Map.detections
+local teleports = workspace.Map.teleports
 
 local function play_dialogue(name: string): ()
 	local node = all_dialogue[name]
@@ -64,6 +64,6 @@ end)
 
 dialogue_info.dialogue_ended:Connect(function(dialogue_id)
 	if dialogue_id == "teleport" then
-		teleport_everyone(teleport_locations.valley.Position)
+		teleport_everyone(teleports.valley.Position)
 	end
 end)
