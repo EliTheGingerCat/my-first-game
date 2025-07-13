@@ -6,7 +6,7 @@ local function go_to_waypoint(name: string): ()
 	local waypoint = waypoints:FindFirstChild(name)
 	assert(waypoint, `Waypoint "{name}" was not found.`)
 
-	bots.all_move_to(waypoint.Position)
+	bots.all_move(waypoint.Position)
 end
 
 return go_to_waypoint

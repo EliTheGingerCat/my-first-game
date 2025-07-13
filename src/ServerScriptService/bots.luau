@@ -6,15 +6,17 @@ local bot_names = require(ReplicatedStorage.bots_names)
 local Signal = require(ReplicatedStorage.vendor.Signal)
 local bot_models = ServerStorage.bots
 
+type Signal<T...> = Signal.Signal<T...>
+
+local bot_added: Signal<Model> = Signal.new()
 local humanoids = {} :: {Humanoid}
 local ids = {} :: {number}
 local last_position = workspace.Map.SpawnLocation.Position + Vector3.new(0, 1.5, 0)
 local models = {} :: {Model}
 local path = PathfindingService:CreatePath()
 local threads = {} :: {thread}
-local bot_added: Signal.Signal<Model> = Signal.new()
 
-local function add_character(id: number): ()
+local function add_bot(id: number): ()
 	local index = table.find(ids, id)
 	assert(index == nil, `Id "{id}" is already taken.`)
 	table.insert(ids, id)
@@ -34,7 +36,7 @@ local function add_character(id: number): ()
 	bot_added:Fire(clone)
 end
 
-local function remove_character(id: number): ()
+local function remove_bot(id: number): ()
 	local name = bot_names[id] :: string?
 	assert(name ~= nil, `Id "{id}" is invalid.`)
 	local model = workspace:FindFirstChild(name) :: Model?
@@ -52,10 +54,10 @@ end
 --[=[
 	@return number -- Id of bot removed.
 ]=]
-local function remove_random_character(): number
+local function remove_random_bot(): number
 	local first = table.remove(ids, math.random(1, #ids)) :: number?
 	assert(first ~= nil, "No bots exist right now.")
-	remove_character(first)
+	remove_bot(first)
 	return first
 end
 
@@ -125,10 +127,10 @@ local function all_move_to(position: Vector3): ()
 end
 
 return table.freeze({
-	add_character = add_character,
-	all_move_to = all_move_to,
+	add_bot = add_bot,
+	all_move = all_move_to,
 	all_teleport = all_teleport,
+	bot_added = bot_added,
 	is_bot = is_bot,
-	remove_random_character = remove_random_character,
-	bot_added = bot_added
+	remove_random_bot = remove_random_bot
 })

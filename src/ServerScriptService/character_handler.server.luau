@@ -20,7 +20,7 @@ end
 
 -- When a player joins, they must take the place of a bot, since the game will always be filled to capacity, using bots if necessary.
 local function on_player_add(player: Player): ()
-	local id = bots.remove_random_character()
+	local id = bots.remove_random_bot()
 	player_ids.player_added(player, id)
 	if player.Character then
 		on_character_add(player.Character)
@@ -31,7 +31,7 @@ end
 -- Replace leaving players with bots.
 local function on_player_removing(player: Player): ()
 	local id = player_ids.player_removing(player)
-	bots.add_character(id)
+	bots.add_bot(id)
 end
 
 for _, player in Players:GetPlayers() do
@@ -44,7 +44,7 @@ bots.bot_added:Connect(on_character_add)
 -- Start off with everyone as a bot.
 local PLAYABLE_CHARACTER_IDS = {1, 2, 3, 4}
 for _, id in PLAYABLE_CHARACTER_IDS do
-	bots.add_character(id)
+	bots.add_bot(id)
 end
 
 dialogue_info.dialogue_ended:Connect(function()
