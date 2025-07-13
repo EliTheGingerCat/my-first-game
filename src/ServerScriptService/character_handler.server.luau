@@ -1,3 +1,4 @@
+local PhysicsService = game:GetService("PhysicsService")
 local Players = game:GetService("Players")
 
 local bots = require(script.Parent.bots)
@@ -5,16 +6,25 @@ local choose_response = require(script.Parent.choose_response)
 local dialogue_info = require(script.Parent.dialogue_info)
 local player_ids = require(script.Parent.player_ids)
 
--- Start off with everyone as a bot.
-local PLAYABLE_CHARACTER_IDS = {1, 2, 3, 4}
-for _, id in PLAYABLE_CHARACTER_IDS do
-	bots.add_character(id)
+PhysicsService:RegisterCollisionGroup("Character")
+PhysicsService:CollisionGroupSetCollidable("Character", "Character", false)
+
+local function on_character_add(character: Model): ()
+	for _, part in character:GetChildren() do
+		if part:IsA("BasePart") then
+			part.CollisionGroup = "Character"
+		end
+	end
 end
 
 -- When a player joins, they must take the place of a bot, since the game will always be filled to capacity, using bots if necessary.
 local function on_player_add(player: Player): ()
 	local id = bots.remove_oldest_character()
 	player_ids.add_player(player, id)
+	if player.Character then
+		on_character_add(player.Character)
+	end
+	player.CharacterAdded:Connect(on_character_add)
 end
 
 -- Replace leaving players with bots.
@@ -28,6 +38,13 @@ for _, player in Players:GetPlayers() do
 end
 Players.PlayerAdded:Connect(on_player_add)
 Players.PlayerRemoving:Connect(on_player_removing)
+bots.bot_added:Connect(on_character_add)
+
+-- Start off with everyone as a bot.
+local PLAYABLE_CHARACTER_IDS = {1, 2, 3, 4}
+for _, id in PLAYABLE_CHARACTER_IDS do
+	bots.add_character(id)
+end
 
 dialogue_info.dialogue_ended:Connect(function()
 	local node = dialogue_info.active_node
