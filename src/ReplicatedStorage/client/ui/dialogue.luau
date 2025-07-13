@@ -76,6 +76,7 @@ return function(props: {
 					local next = currentNode.responses[math.abs(currentFrame)].next
 					if next then
 						setCurrentNode(next)
+						setCurrentFrame(1)
 					else
 						props.dialogue_finished()
 					end
