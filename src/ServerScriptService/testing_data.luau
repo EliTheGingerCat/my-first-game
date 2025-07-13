@@ -15,9 +15,9 @@ end
 
 local last_dialogue: string = nil
 
-last_dialogue = "store"
--- fire_response("knock")
-go("store")
+-- last_dialogue = "store"
+-- fire_response()
+-- go("store")
 
 return {
 	last_dialogue = last_dialogue,
