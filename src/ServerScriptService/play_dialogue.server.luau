@@ -10,6 +10,7 @@ local prepare_dialogue_ended = require(script.Parent.prepare_dialogue_ended)
 local teleport_everyone = require(script.Parent.teleport_everyone)
 local testing_data = require(script.Parent.testing_data)
 
+local barriers = workspace.Map.barriers
 local detections = workspace.Map.detections
 local teleports = workspace.Map.teleports
 
@@ -73,6 +74,7 @@ end
 
 local valley_ready = false
 local function valley_done(): ()
+	barriers.valley:Destroy()
 	go_to_waypoint("valley")
 	valley_ready = true
 end
@@ -119,6 +121,8 @@ dialogue_info.dialogue_ended:Connect(function(dialogue_id)
 		valley_teleport()
 	elseif dialogue_id == "did teleport" then
 		valley_done()
+	elseif dialogue_id == "valley" then
+		barriers.store:Destroy()
 	end
 end)
 
