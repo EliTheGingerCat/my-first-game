@@ -119,7 +119,7 @@ local road: dialogue_tree = {
 			response_text = "Let us jump down!"
 		},
 		{
-			response_id = "wait",
+			response_id = "wait teleport",
 			button_text = "Sit around.",
 			response_text = "I guess we just have to sit around until... uh... we teleport down?",
 			next = {
@@ -250,7 +250,7 @@ local buy: dialogue_tree = {
 			} :: dialogue_tree?
 		},
 		{
-			response_id = "wait",
+			response_id = "wait store",
 			button_text = "Admit defeat.",
 			response_text = "Ok gg.",
 			next = {
