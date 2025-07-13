@@ -4,9 +4,9 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local all_dialogue = require(ReplicatedStorage.all_dialogue)
 local constants = require(ReplicatedStorage.constants)
+local dialogue_info = require(script.Parent.dialogue_info)
 local get_graphemes = require(ReplicatedStorage.get_graphemes)
 local go_to_waypoint = require(script.Parent.go_to_waypoint)
-local dialogue_info = require(script.Parent.dialogue_info)
 
 local detections = workspace.Map.Detections
 
