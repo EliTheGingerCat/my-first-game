@@ -52,11 +52,9 @@ local function meet_barky()
 end
 
 on_player_touch(detections.Road, function()
-	print("touched")
 	if last_dialogue ~= "meet_barky" then
 		return
 	end
-	print("playing")
 
 	play_dialogue("road")
 	return true
