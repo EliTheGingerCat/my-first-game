@@ -181,17 +181,16 @@ local function try_pathfinding(position: Vector3): boolean
 	return true
 end
 
-local function all_move_to(position: Vector3): ()
-	local correct_position = position
-	local success = try_pathfinding(correct_position)
+local function all_move(position: Vector3): ()
+	local success = try_pathfinding(position)
 	if not success then
-		all_teleport(correct_position)
+		all_teleport(position)
 	end
 end
 
 return table.freeze({
 	add_bot = add_bot,
-	all_move = all_move_to,
+	all_move = all_move,
 	all_teleport = all_teleport,
 	bot_added = bot_added,
 	is_bot = is_bot,
