@@ -51,7 +51,7 @@ on_player_touch(detections.BarkyHouse, function()
 	return true
 end)
 
-local function meet_barky()
+local function meet_barky(): ()
 	workspace.Barky:PivotTo(CFrame.new(teleports.barky.Position))
 	bots.register_character(workspace.Barky)
 	play_dialogue("meet_barky")
