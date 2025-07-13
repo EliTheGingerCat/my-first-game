@@ -55,11 +55,9 @@ dialogue_info.dialogue_ended:Connect(function()
 		return
 	end
 
-	local index = table.find(bots.ids, responder_id)
-	if index == nil then
+	if not bots.is_bot(responder_id) then
 		return
 	end
-	-- Guaranteed that the responder is a bot.
 
 	task.wait(3)
 

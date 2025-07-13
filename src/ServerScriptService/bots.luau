@@ -59,6 +59,10 @@ local function remove_random_character(): number
 	return first
 end
 
+local function is_bot(id: number)
+	return table.find(ids, id) ~= nil
+end
+
 local function cleanup(): ()
 	for _, thread in threads do
 		task.cancel(thread)
@@ -122,9 +126,9 @@ end
 
 return table.freeze({
 	add_character = add_character,
-	ids = ids,
 	all_move_to = all_move_to,
 	all_teleport = all_teleport,
+	is_bot = is_bot,
 	remove_random_character = remove_random_character,
 	bot_added = bot_added
 })
