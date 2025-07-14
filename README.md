@@ -13,6 +13,7 @@ A game made for BloxCode Game Jam season 3.
 - [Missing Features](#missing-features)
 - [Dependencies](#dependencies)
 - [Development](#development)
+- [Funny Commits](#funny-commits)
 - [License](#license)
 
 ## Details
@@ -88,6 +89,16 @@ Regenerate sourcemap and watch for changes: `rojo sourcemap -o sourcemap.json --
 Build: `rojo build -o build.rbxl`
 View Lune scripts: `lune list`
 Build test place: `lune run build_test`
+
+## Funny Commits
+
+These are funny due to the commit description.
+
+Ordered ascending by date.
+
+- b1d374bbad0ec6f253b692f1ba73f8989c39c42f
+- c8ceac3fcb2386bbe3a47426313935262a730501
+- 128ae778633db17135cd9600ee29f7431a2ac670 - more interesting than funny
 
 ## License
 
