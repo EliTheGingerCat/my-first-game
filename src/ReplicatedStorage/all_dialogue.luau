@@ -268,6 +268,30 @@ local buy: dialogue_tree = {
 	}
 }
 
+local go_to_train: dialogue_tree = {
+	dialogue_id = "go train",
+	texts = {
+		{
+			speaker_id = Barky,
+			text = "We're finally ready! Let's go to the train."
+		},
+	}
+}
+
+local train: dialogue_tree = {
+	dialogue_id = "train",
+	texts = {
+		{
+			speaker_id = player_observant,
+			text = "Are you sure this train is safe?"
+		},
+		{
+			speaker_id = Barky,
+			text = "Of course! It's powered by AI. Alright everyone, let's get on."
+		},
+	} 
+}
+
 return table.freeze({
 	start = start,
 	house = house,
@@ -277,5 +301,7 @@ return table.freeze({
 	teleport = teleport,
 	valley = valley,
 	store = store,
-	buy = buy
+	buy = buy,
+	go_to_train = go_to_train,
+	train = train
 })

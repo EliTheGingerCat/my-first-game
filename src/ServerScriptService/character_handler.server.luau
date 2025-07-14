@@ -16,6 +16,10 @@ local function on_character_add(character: Model): ()
 			part.CollisionGroup = "Character"
 		end
 	end
+	
+	local root = character:WaitForChild("HumanoidRootPart") :: BasePart
+	task.wait(0.5)
+	root.CFrame = CFrame.new(bots.get_last_position())
 end
 
 -- When a player joins, they must take the place of a bot, since the game will always be filled to capacity, using bots if necessary.

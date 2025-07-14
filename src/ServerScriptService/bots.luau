@@ -33,6 +33,10 @@ for index, link in workspace.Map.links:GetChildren() do
 	}
 end
 
+local function get_last_position(): Vector3
+	return last_position
+end
+
 local function register_character(model: Model): ()
 	local humanoid = model:FindFirstChildOfClass("Humanoid")
 	assert(humanoid ~= nil, `Humanoid not found in model "{model.Name}".`)
@@ -216,6 +220,7 @@ return table.freeze({
 	all_move = all_move,
 	all_teleport = all_teleport,
 	bot_added = bot_added,
+	get_last_position = get_last_position,
 	is_bot = is_bot,
 	register_character = register_character,
 	remove_random_bot = remove_random_bot
