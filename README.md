@@ -84,10 +84,15 @@ These are not necessary for development, but help.
 Only Rokit and Luau LS need to be installed manually.
 
 Install development dependencies: `rokit install`
+
 Regenerate sourcemap: `rojo sourcemap -o sourcemap.json`
+
 Regenerate sourcemap and watch for changes: `rojo sourcemap -o sourcemap.json --watch`
+
 Build: `rojo build -o build.rbxl`
+
 View Lune scripts: `lune list`
+
 Build test place: `lune run build_test`
 
 ## Funny Commits
