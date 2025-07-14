@@ -101,9 +101,9 @@ These are funny due to the commit description.
 
 Ordered ascending by date.
 
-- https://github.com/EliTheGingerCat/my-first-game/commit/b1d374bbad0ec6f253b692f1ba73f8989c39c42f
-- https://github.com/EliTheGingerCat/my-first-game/commit/c8ceac3fcb2386bbe3a47426313935262a730501
-- https://github.com/EliTheGingerCat/my-first-game/commit/128ae778633db17135cd9600ee29f7431a2ac670 - more interesting than funny
+- [b1d374bbad0ec6f253b692f1ba73f8989c39c42f](https://github.com/EliTheGingerCat/my-first-game/commit/b1d374bbad0ec6f253b692f1ba73f8989c39c42f)
+- [c8ceac3fcb2386bbe3a47426313935262a730501](https://github.com/EliTheGingerCat/my-first-game/commit/c8ceac3fcb2386bbe3a47426313935262a730501)
+- [128ae778633db17135cd9600ee29f7431a2ac670](https://github.com/EliTheGingerCat/my-first-game/commit/128ae778633db17135cd9600ee29f7431a2ac670) - more interesting than funny
 
 ## License
 
