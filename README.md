@@ -84,3 +84,7 @@ Build test place: `lune run build_test`
 ## License
 
 This project is licensed under the MIT License. See [`LICENSE.txt`](./LICENSE.txt).
+
+This is an entire (slightly unfinished) Roblox game so it is feels weird to say that you can copy a finished project, but honestly I do not care if you copy exactly and publish on your account. Assuming you follow the terms of the license, of course.
+
+Public attribution would be nice!
