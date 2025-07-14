@@ -8,6 +8,7 @@ A game made for BloxCode Game Jam season 3.
 - [Missing Features](#missing-features)
 - [Dependencies](#dependencies)
 - [Development](#development)
+- [License](#license)
 
 ### Game jam
 
