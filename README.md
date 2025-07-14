@@ -14,7 +14,7 @@ Discord server link: https://discord.gg/uRjW8ny9qb
 
 ### This submission
 
-Developers: @EliTheGingerCat, @DarkenedRing
+Developers: [@EliTheGingerCat](https://github.com/EliTheGingerCat), [@DarkenedRing](https://github.com/DarkenedRing)
 
 Time: We only really worked on it for 8 days.
 
