@@ -7,7 +7,18 @@ local end_screen = require(script.Parent.end_screen)
 local objective = require(script.Parent.objective)
 local React = require(ReplicatedStorage.vendor.ReactLua.React)
 
+local local_camera = workspace.CurrentCamera
+
+local cameras = workspace.Map.cameras
+
 local e = React.createElement
+
+local function gameover_camera(): ()
+	local_camera.CameraType = Enum.CameraType.Scriptable
+	local_camera.CFrame = cameras.one.CFrame
+	task.wait(10)
+	local_camera.CFrame = cameras.two.CFrame
+end
 
 return function()
 	local currentDialogue: types.dialogue_tree?, setCurrentDialogue = React.useState(nil :: types.dialogue_tree?)
@@ -20,12 +31,17 @@ return function()
 			setCurrentDialogue(all_dialogue[dialogue_name])
 			setDialogueId(id)
 		end)
+		
+		local thread = coroutine.create(gameover_camera)
+
 		local connection2 = ReplicatedStorage.remotes.game_ended.OnClientEvent:Connect(function()
 			setGameEnded(true)
+			coroutine.resume(thread)
 		end)
 		return function()
 			connection:Disconnect()
 			connection2:Disconnect()
+			coroutine.close(thread)
 		end
 	end, {})
 

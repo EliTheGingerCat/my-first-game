@@ -10,13 +10,15 @@ local go_to_waypoint = require(script.Parent.go_to_waypoint)
 local objective = require(script.Parent.objective)
 local prepare_dialogue_ended = require(script.Parent.prepare_dialogue_ended)
 local teleport_everyone = require(script.Parent.teleport_everyone)
-local testing_data = require(script.Parent.testing_data)
 
 local barriers = workspace.Map.barriers
 local detections = workspace.Map.detections
+local last_dialogue: string
 local teleports = workspace.Map.teleports
+local truss = workspace.Map.ValleyTown.Road.Obby.Truss
 
-local last_dialogue = testing_data.last_dialogue
+truss.CanCollide = false
+truss.Transparency = 1
 
 local function play_dialogue(name: string): ()
 	local node = all_dialogue[name]
@@ -40,10 +42,9 @@ local function on_player_touch(part: BasePart, callback: () -> true?): ()
 	end)
 end
 
-if last_dialogue == nil then
-	task.wait(3)
-	play_dialogue("start")
-end
+play_dialogue("waiting")
+
+task.delay(5, play_dialogue, "start")
 
 on_player_touch(detections.BarkyHouse, function()
 	if last_dialogue ~= "start" then
@@ -82,7 +83,40 @@ local function valley_done(): ()
 	valley_ready = true
 end
 
+on_player_touch(detections.Valley, function()
+	if not valley_ready then
+		return
+	end
+
+	play_dialogue("valley")
+	return true
+end)
+
+on_player_touch(detections.Store, function()
+	if last_dialogue ~= "valley" then
+		return
+	end
+
+	play_dialogue("store")
+	return true
+end)
+
+objective.shopping_completed:Connect(function()
+	play_dialogue("buy")
+end)
+
+on_player_touch(detections.Train, function()
+	if last_dialogue ~= "go train" then
+		return
+	end
+
+	play_dialogue("train")
+	return true
+end)
+
 local function leave_store(): ()
+	barriers.train:Destroy()
+	bots.flip_links()
 	go_to_waypoint("train")
 end
 
@@ -129,37 +163,6 @@ local function play_final_cutscene(): ()
 	end)
 end
 
-on_player_touch(detections.Valley, function()
-	if not valley_ready then
-		return
-	end
-
-	play_dialogue("valley")
-	return true
-end)
-
-on_player_touch(detections.Store, function()
-	if last_dialogue ~= "valley" then
-		return
-	end
-
-	play_dialogue("store")
-	return true
-end)
-
-objective.shopping_completed:Connect(function()
-	play_dialogue("buy")
-end)
-
-on_player_touch(detections.Train, function()
-	if last_dialogue ~= "buy" then
-		return
-	end
-
-	play_dialogue("train")
-	return true
-end)
-
 -- Where should the NPCs go when this dialogue finishes playing?
 -- index = dialogue that finished
 -- value = where to go
@@ -187,11 +190,14 @@ dialogue_info.dialogue_ended:Connect(function(dialogue_id)
 	elseif dialogue_id == "valley" then
 		barriers.store:Destroy()
 	elseif dialogue_id == "store" then
+		truss.CanCollide = true
+		truss.Transparency = 0
+		objective.set_ready()
 		objective.set_objective(objective.get_shopping_text())
 	elseif dialogue_id == "buy" then
 		objective.set_objective("")
 	elseif dialogue_id == "sale" then
-		task.spawn(leave_store)
+		leave_store()
 		play_dialogue("go_to_train")
 	elseif dialogue_id == "shoplift" then
 		play_dialogue("go_to_train")

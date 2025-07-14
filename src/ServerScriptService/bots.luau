@@ -33,6 +33,13 @@ for index, link in workspace.Map.links:GetChildren() do
 	}
 end
 
+local function flip_links(): ()
+	for _, link in path_links do
+		-- This is the only situation in which multiple assignment is acceptable.
+		link.start, link.stop = link.stop, link.start
+	end
+end
+
 local function get_last_position(): Vector3
 	return last_position
 end
@@ -198,10 +205,8 @@ local function try_pathfinding(position: Vector3): boolean
 	local waypoints = path:GetWaypoints()
 
 	for _, character in characters do
-		print("going to:", position)
 		local thread = task.spawn(follow_waypoints, character.model, character.humanoid, waypoints)
 		table.insert(threads, thread)
-		print("total threads:", #threads)
 	end
 
 	return true
@@ -220,6 +225,7 @@ return table.freeze({
 	all_move = all_move,
 	all_teleport = all_teleport,
 	bot_added = bot_added,
+	flip_links = flip_links,
 	get_last_position = get_last_position,
 	is_bot = is_bot,
 	register_character = register_character,

@@ -5,5 +5,6 @@ return {
 	player_4 = 4,
 
 	Barky = 5,
-	Ronald = 6
+	Ronald = 6,
+	System = 7
 }

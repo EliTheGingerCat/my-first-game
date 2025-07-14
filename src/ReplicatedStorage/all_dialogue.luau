@@ -11,6 +11,18 @@ local player_brainrot = speaker_ids.player_4
 
 local Barky = speaker_ids.Barky
 local Ronald = speaker_ids.Ronald
+local System = speaker_ids.System
+
+-- When waiting for players (no time for lobby).
+local waiting: dialogue_tree = {
+	dialogue_id = "waiting",
+	texts = {
+		{
+			speaker_id = System,
+			text = "Waiting for players."
+		}
+	}
+}
 
 -- When the game starts.
 local start: dialogue_tree = {
@@ -98,7 +110,7 @@ local road: dialogue_tree = {
 		},
 		{
 			speaker_id = player_brainrot,
-			text = "I guess this is Where the Sidewalk Ends."
+			text = "I guess this is Where the Sidewalk Ends. 😂"
 		},
 		{
 			speaker_id = player_smart,
@@ -118,12 +130,12 @@ local road: dialogue_tree = {
 		{
 			response_id = "jump",
 			button_text = "Jump down.",
-			response_text = "Let us jump down!"
+			response_text = "Let us jump down! 🏃‍♂️"
 		},
 		{
 			response_id = "wait teleport",
 			button_text = "Sit around.",
-			response_text = "I guess we just have to sit around until... uh... we teleport down?",
+			response_text = "I guess we just have to sit around until... uh... we teleport down? 🤷",
 			next = {
 				dialogue_id = "teleport",
 				texts = {
@@ -198,7 +210,7 @@ local store: dialogue_tree = {
 		},
 		{
 			speaker_id = Barky,
-			text = "Alright guys, here is the shopping list:\n- 5 Shopping List\n- 3 Shopping Lists\n- 3 Shopping Lists\n- 3"
+			text = "Alright guys, here is the shopping list:\n- 5 Shopping Lists\n- 3 Shopping Lists\n- 3 Shopping Lists\n- 3"
 		},
 		{
 			speaker_id = player_focused,
@@ -211,6 +223,10 @@ local store: dialogue_tree = {
 		{
 			speaker_id = player_focused,
 			text = "Lock in. I really want to go on this trip."
+		},
+		{
+			speaker_id = Ronald,
+			text = "By the way, here is a truss in case you want to go back to Valley Town."
 		}
 	}
 }
@@ -261,6 +277,14 @@ local buy: dialogue_tree = {
 					{
 						speaker_id = Ronald,
 						text = "By the way, we are having a 100% off sale today."
+					},
+					{
+						speaker_id = player_brainrot,
+						text = "Ayo. With that sale, I think we have just barely enough. 🤔"
+					},
+					{
+						speaker_id = player_smart,
+						text = "Dude... 100% off means free."
 					}
 				}
 			} :: dialogue_tree?
@@ -293,6 +317,7 @@ local train: dialogue_tree = {
 }
 
 return table.freeze({
+	waiting = waiting,
 	start = start,
 	house = house,
 	boring = boring,
