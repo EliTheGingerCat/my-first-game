@@ -10,7 +10,7 @@ Theme: "Everything Breaks".
 
 Time: 14 days
 
-Discord server link: https://discord.gg/BPcSp9seRH
+Discord server link: https://discord.gg/uRjW8ny9qb
 
 ### This submission
 
