@@ -1,3 +1,7 @@
+### Archival
+
+This project will be archived after game jam results are released.
+
 # My First Game
 
 A game made for BloxCode Game Jam season 3.
