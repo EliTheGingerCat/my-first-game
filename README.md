@@ -2,6 +2,13 @@
 
 A game made for BloxCode Game Jam season 3.
 
+## Table of Contents
+
+- [Bugs](#bugs)
+- [Missing Features](#missing-features)
+- [Dependencies](#dependencies)
+- [Development](#development)
+
 ### Game jam
 
 It is a game jam specifically for Roblox games.
@@ -19,13 +26,6 @@ Developers: [@EliTheGingerCat](https://github.com/EliTheGingerCat), [@DarkenedRi
 Time: We only really worked on it for 8 days.
 
 Game link: https://www.roblox.com/games/8515170099
-
-## Table of Contents
-
-- [Bugs](#bugs)
-- [Missing Features](#missing-features)
-- [Dependencies](#dependencies)
-- [Development](#development)
 
 ## Bugs
 
