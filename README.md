@@ -4,11 +4,14 @@ A game made for BloxCode Game Jam season 3.
 
 ## Table of Contents
 
+- [Details](#details)
 - [Bugs](#bugs)
 - [Missing Features](#missing-features)
 - [Dependencies](#dependencies)
 - [Development](#development)
 - [License](#license)
+
+## Details
 
 ### Game jam
 
